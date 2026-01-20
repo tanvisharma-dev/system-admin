@@ -1,0 +1,6 @@
+employee_id,date,status,hours,comment
+1077,2025-07-08,P,9,Present today
+1078,2025-07-08,WFH,8,Working from home
+1079,2025-07-08,A,,Absent
+EMP-2025-0001,2025-07-09,HL,4,Half day leave
+EMP-2025-0002,2025-07-09,L,,Full day leave

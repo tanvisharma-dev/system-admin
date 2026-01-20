@@ -1,0 +1,194 @@
+@extends('layouts.admin')
+
+@section('title', 'Add Task')
+
+@section('content')
+<div class="container-fluid">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Add New Task</h1>
+        <a href="{{ route('tasks.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Tasks
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h6 class="m-0 font-weight-bold">Task Details</h6>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('tasks.store') }}" method="POST">
+                @csrf
+                
+                <div class="row mb-3">
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="project_id">Project <span class="text-danger">*</span></label>
+                            <select class="form-control @error('project_id') is-invalid @enderror" id="project_id" name="project_id" required>
+                                <option value="">Select Project</option>
+                                @foreach($projects as $project)
+                                    <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>
+                                        {{ $project->name }} ({{ $project->client_name }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('project_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="module_id">Module <span class="text-danger">*</span></label>
+                            <select class="form-control @error('module_id') is-invalid @enderror" id="module_id" name="module_id" required>
+                                <option value="">Select Module</option>
+                            </select>
+                            @error('module_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="title">Task Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title') }}" required>
+                            @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="assigned_to">Assigned To <span class="text-danger">*</span></label>
+                            <select class="form-control @error('assigned_to') is-invalid @enderror" id="assigned_to" name="assigned_to" required>
+                                <option value="">Select Employee</option>
+                                @foreach($employees as $employee)
+                                    <option value="{{ $employee->id }}" {{ old('assigned_to') == $employee->id ? 'selected' : '' }}>
+                                        {{ $employee->full_name }} ({{ $employee->designation }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('assigned_to')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="status">Status <span class="text-danger">*</span></label>
+                            <select class="form-control @error('status') is-invalid @enderror" id="status" name="status" required>
+                                <option value="">Select Status</option>
+                                @foreach($statuses as $status)
+                                    <option value="{{ $status }}" {{ old('status') == $status ? 'selected' : '' }}>
+                                        {{ $status }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="start_date">Start Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
+                            @error('start_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="due_date">Due Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control @error('due_date') is-invalid @enderror" id="due_date" name="due_date" value="{{ old('due_date') }}" required>
+                            @error('due_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mt-3">
+                        <div class="form-group">
+                            <label for="completion_date">Completion Date</label>
+                            <input type="date" class="form-control @error('completion_date') is-invalid @enderror" id="completion_date" name="completion_date" value="{{ old('completion_date') }}">
+                            <small class="form-text text-muted">Leave blank if task is not completed yet</small>
+                            @error('completion_date')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="remarks">Remarks</label>
+                            <textarea class="form-control @error('remarks') is-invalid @enderror" id="remarks" name="remarks" rows="3">{{ old('remarks') }}</textarea>
+                            @error('remarks')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    // Validate dates
+    document.getElementById('start_date').addEventListener('change', function() {
+        document.getElementById('due_date').min = this.value;
+        if (document.getElementById('completion_date').value) {
+            document.getElementById('completion_date').min = this.value;
+        }
+    });
+
+    // Auto-set completion date when status is Done
+    document.getElementById('status').addEventListener('change', function() {
+        if (this.value === 'Done') {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('completion_date').value = today;
+        }
+    });
+
+
+
+    //Get the Modules of the Project --
+    // When project changes, fetch modules
+document.getElementById('project_id').addEventListener('change', function() {
+    let projectId = this.value;
+    let moduleSelect = document.getElementById('module_id');
+
+    moduleSelect.innerHTML = '<option value="">Loading...</option>';
+
+    if (projectId) {
+        fetch(`/admin/projects/${projectId}/modules`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                
+                moduleSelect.innerHTML = '<option value="">Select Module</option>';                
+                data.forEach(module => {
+                    let option = document.createElement('option');
+                    option.value = module.id;
+                    option.text = module.module_name; // or whatever your column is
+                    moduleSelect.appendChild(option);
+                });
+            });
+    } else {
+        moduleSelect.innerHTML = '<option value="">Select Module</option>';
+    }
+});
+
+
+</script>
+@endsection

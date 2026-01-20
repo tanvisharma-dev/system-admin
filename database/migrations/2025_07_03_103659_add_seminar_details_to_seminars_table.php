@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('seminars', function (Blueprint $table) {
+            $table->text('purpose')->nullable()->after('college_name');
+            $table->json('seminar_presenters')->nullable()->after('purpose');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('seminars', function (Blueprint $table) {
+            $table->dropColumn(['purpose', 'seminar_presenters']);
+        });
+    }
+};
